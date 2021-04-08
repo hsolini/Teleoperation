@@ -8,7 +8,7 @@ output:
 ---
 ## Sources
 1. Green & MacLeod's 2016 paper, titled, "SIMR: an R package for power analysis of generalized linear mixed models by simulation"
-2. Dr. Humburg's post on conducing power analyses using "simr" (https://humburg.github.io/Power-Analysis/simr_power_analysis.html)
+2. Dr. Humburg's post on conducting power analyses using "simr" (https://humburg.github.io/Power-Analysis/simr_power_analysis.html)
 
 ## Data Generation
 ### Create the Dataframe
@@ -69,16 +69,16 @@ head(df_sample, n=10)
 
 ```
 ##    PID       IM    ID        ct
-## 1    1 accuracy 1.807 2.1063001
-## 2    1 accuracy 1.170 3.1056480
-## 3    1 accuracy 0.874 0.6703624
-## 4    2    speed 1.807 1.8034647
-## 5    2    speed 1.170 1.4225342
-## 6    2    speed 0.874 0.7918512
-## 7    3 accuracy 1.807 2.6299579
-## 8    3 accuracy 1.170 1.3084242
-## 9    3 accuracy 0.874 1.4353332
-## 10   4    speed 1.807 2.8424731
+## 1    1 accuracy 1.807 2.3335767
+## 2    1 accuracy 1.170 1.2531979
+## 3    1 accuracy 0.874 0.8411663
+## 4    2    speed 1.807 2.1278983
+## 5    2    speed 1.170 1.8180868
+## 6    2    speed 0.874 0.7245497
+## 7    3 accuracy 1.807 2.0764792
+## 8    3 accuracy 1.170 1.6658515
+## 9    3 accuracy 0.874 3.0031103
+## 10   4    speed 1.807 0.9718931
 ```
 
 ## Power Analysis
@@ -111,21 +111,21 @@ summary(fit)
 ## lm(formula = ct ~ instr_meth * indx_dff, data = df_pop)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.6386 -0.4474  0.0031  0.4459  2.4177 
+##      Min       1Q   Median       3Q      Max 
+## -2.61047 -0.44048 -0.00219  0.44247  2.67011 
 ## 
 ## Coefficients:
 ##                           Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)               0.973281   0.010137  96.010  < 2e-16 ***
-## instr_methspeed          -0.097328   0.014336  -6.789 1.14e-11 ***
-## indx_dff                  0.787000   0.007557 104.138  < 2e-16 ***
-## instr_methspeed:indx_dff -0.078700   0.010688  -7.364 1.80e-13 ***
+## (Intercept)               0.977404   0.010218  95.659  < 2e-16 ***
+## instr_methspeed          -0.097740   0.014450  -6.764 1.35e-11 ***
+## indx_dff                  0.787000   0.007617 103.320  < 2e-16 ***
+## instr_methspeed:indx_dff -0.078700   0.010772  -7.306 2.78e-13 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.6578 on 99998 degrees of freedom
-## Multiple R-squared:  0.1797,	Adjusted R-squared:  0.1796 
-## F-statistic:  7301 on 3 and 99998 DF,  p-value: < 2.2e-16
+## Residual standard error: 0.6631 on 99998 degrees of freedom
+## Multiple R-squared:  0.1774,	Adjusted R-squared:  0.1774 
+## F-statistic:  7189 on 3 and 99998 DF,  p-value: < 2.2e-16
 ```
 
 ```r
@@ -146,7 +146,7 @@ sim
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##        6.00% ( 2.23, 12.60)
+##       10.00% ( 4.90, 17.62)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ IM + ID + [re]
@@ -154,7 +154,7 @@ sim
 ## Based on 100 simulations, (0 warnings, 0 errors)
 ## alpha = 0.05, nrow = 30
 ## 
-## Time elapsed: 0 h 0 m 12 s
+## Time elapsed: 0 h 0 m 11 s
 ```
 
 ### Simulate Again
@@ -173,7 +173,7 @@ sim2
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##       12.00% ( 9.28, 15.18)
+##        9.60% ( 7.16, 12.53)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ IM + ID + [re]
@@ -197,7 +197,7 @@ sim3
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##       95.40% (93.18, 97.06)
+##       98.00% (96.35, 99.04)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ IM + ID + [re]
@@ -205,7 +205,7 @@ sim3
 ## Based on 500 simulations, (0 warnings, 0 errors)
 ## alpha = 0.05, nrow = 2400
 ## 
-## Time elapsed: 0 h 1 m 18 s
+## Time elapsed: 0 h 1 m 17 s
 ```
 
 ```r
@@ -213,7 +213,7 @@ sim3
 pc <- powerCurve(model3, test = fcompare(y~IM+ID), within = 'PID+IM+ID')
 
 # plot the curve
-plot(pc)
+plot(pc, xlab = 'Number_of_Observations')
 ```
 
 ![](Exp1_PowerAnalysis_files/figure-html/extend baseline model-1.png)<!-- -->
@@ -226,18 +226,18 @@ print(pc)
 ```
 ## Power for model comparison, (95% confidence interval),
 ## by number of observations within PID+IM+ID:
-##       3: 19.10% (16.71, 21.68) - 180 rows
-##       7: 35.90% (32.92, 38.96) - 420 rows
-##      11: 51.60% (48.45, 54.74) - 660 rows
-##      15: 64.40% (61.34, 67.37) - 900 rows
-##      19: 74.40% (71.58, 77.08) - 1140 rows
-##      24: 83.30% (80.84, 85.56) - 1440 rows
-##      28: 88.50% (86.36, 90.41) - 1680 rows
-##      32: 92.30% (90.47, 93.88) - 1920 rows
-##      36: 93.60% (91.90, 95.04) - 2160 rows
-##      40: 96.10% (94.71, 97.21) - 2400 rows
+##       3: 18.80% (16.42, 21.36) - 180 rows
+##       7: 36.60% (33.61, 39.67) - 420 rows
+##      11: 51.20% (48.05, 54.34) - 660 rows
+##      15: 64.20% (61.14, 67.18) - 900 rows
+##      19: 76.10% (73.33, 78.71) - 1140 rows
+##      24: 85.20% (82.85, 87.34) - 1440 rows
+##      28: 89.90% (87.86, 91.70) - 1680 rows
+##      32: 93.80% (92.12, 95.21) - 1920 rows
+##      36: 95.10% (93.57, 96.35) - 2160 rows
+##      40: 96.90% (95.63, 97.88) - 2400 rows
 ## 
-## Time elapsed: 0 h 18 m 7 s
+## Time elapsed: 0 h 15 m 42 s
 ```
 
 ```r
@@ -251,7 +251,7 @@ sim4
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##       81.00% (77.28, 84.35)
+##       79.60% (75.80, 83.05)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ IM + ID + [re]
@@ -259,7 +259,7 @@ sim4
 ## Based on 500 simulations, (0 warnings, 0 errors)
 ## alpha = 0.05, nrow = 1440
 ## 
-## Time elapsed: 0 h 2 m 28 s
+## Time elapsed: 0 h 1 m 7 s
 ```
 
 ```r
@@ -278,7 +278,7 @@ sim5
 ## Based on 500 simulations, (0 warnings, 0 errors)
 ## alpha = 0.05, nrow = 1440
 ## 
-## Time elapsed: 0 h 2 m 34 s
+## Time elapsed: 0 h 1 m 5 s
 ```
 
 ```r
@@ -289,7 +289,7 @@ sim6
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##       84.80% (81.35, 87.83)
+##       83.80% (80.27, 86.92)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ ID + [re]
@@ -297,5 +297,5 @@ sim6
 ## Based on 500 simulations, (0 warnings, 0 errors)
 ## alpha = 0.05, nrow = 1440
 ## 
-## Time elapsed: 0 h 2 m 29 s
+## Time elapsed: 0 h 1 m 5 s
 ```
