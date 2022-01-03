@@ -18,12 +18,12 @@ output:
 ```r
 # first, create our variables
 angle <- c(45, 90, 135) # three different corner angles
-index <- c(1.17, 0.874, 0.7, 0.585, 0.503) # three indexes of difficulty
-ss <- 999990 # create a sample size for our population
+index <- c(0.874, 0.7, 0.585, 0.503) # four indexes of difficulty
+ss <- 999996 # create a sample size for our population
 angle2 <- rep(angle, each = ss/3) # repeat instruction methods 
-index2 <- rep(rep(index, each = ss/15), 3) # repeat index of difficulty
+index2 <- rep(rep(index, each = ss/12), 3) # repeat index of difficulty
 
-# concatenate into a dataframe
+# concatenate into a dataframe 
 df_pop <- data.frame(corner_angle=factor(angle2), indx_dff=index2)
 ```
 
@@ -34,38 +34,35 @@ df_pop <- data.frame(corner_angle=factor(angle2), indx_dff=index2)
 
 ```r
 # define error term to induce some variability in our estimates 
-error_term <- rnorm(ss/15, mean=0, sd = 0.7) 
+error_term <- rnorm(ss/12, mean=0, sd = 0.7) 
 
 # use Pastel et al.'s (2007) fitted model to get estimated cornering times for each index of difficulty & corner angle
 
 # 45 degrees
-Y1 <- (0.975 + .787*1.17 + error_term)*1.2
-Y2 <- (0.975 + .787*0.874 + error_term)*1.2
-Y3 <- (0.975 + .787*0.7 + error_term)*1.2
-Y4 <- (0.975 + .787*0.585 + error_term)*1.2
-Y5 <- (0.975 + .787*0.503 + error_term)*1.2
+Y1 <- (0.975 + .787*0.874 + error_term)*1.2
+Y2 <- (0.975 + .787*0.7 + error_term)*1.2
+Y3 <- (0.975 + .787*0.585 + error_term)*1.2
+Y4 <- (0.975 + .787*0.503 + error_term)*1.2
 
 # 90 degrees
-Y6 <- (0.975 + .787*1.17 + error_term)
-Y7 <- (0.975 + .787*0.874 + error_term)
-Y8 <- (0.975 + .787*0.7 + error_term)
-Y9 <- (0.975 + .787*0.585 + error_term)
-Y10 <- (0.975 + .787*0.503 + error_term)
+Y5 <- (0.975 + .787*0.874 + error_term)
+Y6 <- (0.975 + .787*0.7 + error_term)
+Y7 <- (0.975 + .787*0.585 + error_term)
+Y8 <- (0.975 + .787*0.503 + error_term)
 
 # 135 degrees
-Y11 <- (0.975 + .787*1.17 + error_term)*.8
-Y12 <- (0.975 + .787*0.874 + error_term)*.8
-Y13 <- (0.975 + .787*0.7 + error_term)*.8
-Y14 <- (0.975 + .787*0.585 + error_term)*.8
-Y15 <- (0.975 + .787*0.503 + error_term)*.8
+Y9 <- (0.975 + .787*0.874 + error_term)*.8
+Y10 <- (0.975 + .787*0.7 + error_term)*.8
+Y11 <- (0.975 + .787*0.585 + error_term)*.8
+Y12 <- (0.975 + .787*0.503 + error_term)*.8
 
 # finally, we append to the population dataframe
-df_pop$ct <- c(Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, Y9, Y10, Y11, Y12, Y13, Y14, Y15)
+df_pop$ct <- c(Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, Y9, Y10, Y11, Y12)
 
 # then, we create a sample of this population
 pid <- factor(1:5) # five subjects
-PID <- rep(pid, each = 15) # repeat participant ID 15 times each
-ANGLE <- rep(rep(angle, each = 5), 5) # repeat each angle 5 times and do that 5 times
+PID <- rep(pid, each = 12) # repeat participant ID 15 times each
+ANGLE <- rep(rep(angle, each = 4), 5) # repeat each angle 5 times and do that 5 times
 ID <- rep(index, 15) # repeat index of difficulty values 15 times
 
 # concatenate into a dataframe
@@ -77,31 +74,27 @@ df_sample$ct <- matrix(replicate(5, c(sample(Y1, 1, replace = T), sample(Y2, 1, 
                                       sample(Y5, 1, replace = T), sample(Y6, 1, replace = T),
                                       sample(Y7, 1, replace = T), sample(Y8, 1, replace = T),
                                       sample(Y9, 1, replace = T), sample(Y10, 1, replace = T),
-                                      sample(Y11, 1, replace = T), sample(Y12, 1, replace = T),
-                                      sample(Y13, 1, replace = T), sample(Y14, 1, replace = T),
-                                      sample(Y15, 1, replace = T))), ncol=1)
+                                      sample(Y11, 1, replace = T), sample(Y12, 1, replace = T))), ncol=1)
 
 # view dataframe
 head(df_sample, n = 12)
 ```
 
 ```
-##    PID ANGLE    ID        ct
-## 1    1    45 1.170 2.9747635
-## 2    1    45 0.874 1.6482865
-## 3    1    45 0.700 1.0894874
-## 4    1    45 0.585 2.3578252
-## 5    1    45 0.503 0.2505052
-## 6    1    90 1.170 1.8689308
-## 7    1    90 0.874 1.8361184
-## 8    1    90 0.700 2.3704704
-## 9    1    90 0.585 0.8065400
-## 10   1    90 0.503 2.3261066
-## 11   1   135 1.170 1.4539065
-## 12   1   135 0.874 1.1719476
+##    PID ANGLE    ID         ct
+## 1    1    45 0.874 2.24967910
+## 2    1    45 0.700 2.10686662
+## 3    1    45 0.585 1.48603257
+## 4    1    45 0.503 1.28669829
+## 5    1    90 0.874 1.24721615
+## 6    1    90 0.700 2.47470157
+## 7    1    90 0.585 2.12831138
+## 8    1    90 0.503 0.07213496
+## 9    1   135 0.874 0.89148315
+## 10   1   135 0.700 1.31352141
+## 11   1   135 0.585 1.83804649
+## 12   1   135 0.503 1.78153004
 ```
-
-
 
 
 ## Power Analysis
@@ -163,22 +156,22 @@ summary(fit)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -3.4199 -0.4607 -0.0024  0.4649  3.5659 
+## -3.4812 -0.4578 -0.0010  0.4611  3.4328 
 ## 
 ## Coefficients:
 ##                           Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)               1.172248   0.004145  282.78   <2e-16 ***
-## corner_angle90           -0.195375   0.005863  -33.33   <2e-16 ***
-## corner_angle135          -0.390749   0.005863  -66.65   <2e-16 ***
-## indx_dff                  0.944400   0.005167  182.77   <2e-16 ***
-## corner_angle90:indx_dff  -0.157400   0.007308  -21.54   <2e-16 ***
-## corner_angle135:indx_dff -0.314800   0.007308  -43.08   <2e-16 ***
+## (Intercept)               1.173349   0.005981  196.18   <2e-16 ***
+## corner_angle90           -0.195558   0.008458  -23.12   <2e-16 ***
+## corner_angle135          -0.391116   0.008458  -46.24   <2e-16 ***
+## indx_dff                  0.944400   0.008797  107.36   <2e-16 ***
+## corner_angle90:indx_dff  -0.157400   0.012440  -12.65   <2e-16 ***
+## corner_angle135:indx_dff -0.314800   0.012440  -25.30   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.7074 on 999984 degrees of freedom
-## Multiple R-squared:  0.1698,	Adjusted R-squared:  0.1698 
-## F-statistic: 4.089e+04 on 5 and 999984 DF,  p-value: < 2.2e-16
+## Residual standard error: 0.7071 on 999990 degrees of freedom
+## Multiple R-squared:  0.1266,	Adjusted R-squared:  0.1265 
+## F-statistic: 2.898e+04 on 5 and 999990 DF,  p-value: < 2.2e-16
 ```
 
 ```r
@@ -186,13 +179,13 @@ summary(fit)
 fixed <- c(summary(fit)$coef[1], summary(fit)$coef[2], summary(fit)$coef[3],
            summary(fit)$coef[4], summary(fit)$coef[5], summary(fit)$coef[6])
 rand <- 0.1 # assign random effect intercept variance
-res <- 0.5 # assign residual variance
+res <- 0.3 # assign residual variance
 
 # fit the baseline simulation model using our sample dataframe
 model <- makeLmer(y ~ ANGLE*ID + (1|PID), fixef = fixed, VarCorr = rand, sigma = res, data = df_sample)
 
 # run simulation & compare to model without the interaction term
-sim <- powerSim(model, nsim=100, test = fcompare(y~ANGLE+ID))
+sim <- powerSim(model, nsim=500, test = fcompare(y~ANGLE+ID))
 ```
 
 ```
@@ -200,9 +193,6 @@ sim <- powerSim(model, nsim=100, test = fcompare(y~ANGLE+ID))
 ```
 
 ```
-## boundary (singular) fit: see ?isSingular
-## boundary (singular) fit: see ?isSingular
-## boundary (singular) fit: see ?isSingular
 ## boundary (singular) fit: see ?isSingular
 ## boundary (singular) fit: see ?isSingular
 ## boundary (singular) fit: see ?isSingular
@@ -216,24 +206,24 @@ sim
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##        6.00% ( 2.23, 12.60)
+##        7.80% ( 5.61, 10.51)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ ANGLE + ID + [re]
 ## 
-## Based on 100 simulations, (1 warning, 0 errors)
-## alpha = 0.05, nrow = 75
+## Based on 500 simulations, (0 warnings, 0 errors)
+## alpha = 0.05, nrow = 60
 ## 
-## Time elapsed: 0 h 0 m 33 s
+## Time elapsed: 0 h 1 m 7 s
 ```
 
 
 ```r
-# First, let's extend the number of participants to 20 instead of 5
-model2 <- extend(model, along = 'PID', n=20)
+# First, let's extend the number of participants to 42 instead of 5
+model2 <- extend(model, along = 'PID', n=42)
 
 # run the simulation
-sim2 <- powerSim(model2, nsim = 500, test = fcompare(y~ANGLE+ID))
+sim2 <- powerSim(model2, nsim=500, test = fcompare(y~ANGLE+ID))
 
 # View power
 sim2
@@ -241,20 +231,20 @@ sim2
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##       13.60% (10.72, 16.92)
+##       24.00% (20.32, 27.99)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ ANGLE + ID + [re]
 ## 
 ## Based on 500 simulations, (0 warnings, 0 errors)
-## alpha = 0.05, nrow = 300
+## alpha = 0.05, nrow = 504
 ## 
-## Time elapsed: 0 h 1 m 29 s
+## Time elapsed: 0 h 1 m 18 s
 ```
 
 ```r
-# Not quite. Let's also extend the number of trials for each index of difficulty for each subject 
-model3 <- extend(model2, within = 'PID+ANGLE+ID', n=20)
+# Let's also extend the number of trials for each index of difficulty for each subject 
+model3 <- extend(model2, within = 'PID+ANGLE+ID', n=10)
 
 # run the simulation 
 sim3 <- powerSim(model3, nsim=500, test = fcompare(y~ANGLE+ID))
@@ -265,15 +255,15 @@ sim3
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##       99.00% (97.68, 99.67)
+##       97.60% (95.85, 98.75)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ ANGLE + ID + [re]
 ## 
-## Based on 500 simulations, (1 warning, 0 errors)
-## alpha = 0.05, nrow = 6000
+## Based on 500 simulations, (0 warnings, 0 errors)
+## alpha = 0.05, nrow = 5040
 ## 
-## Time elapsed: 0 h 4 m 39 s
+## Time elapsed: 0 h 2 m 20 s
 ```
 
 ```r
@@ -294,23 +284,21 @@ print(pc)
 ```
 ## Power for model comparison, (95% confidence interval),
 ## by number of observations within PID+ANGLE+ID:
-##       3: 32.40% (29.50, 35.40) - 900 rows
-##       5: 52.90% (49.75, 56.03) - 1500 rows
-##       7: 67.20% (64.19, 70.11) - 2100 rows
-##       9: 79.20% (76.55, 81.68) - 2700 rows
-##      11: 88.80% (86.68, 90.69) - 3300 rows
-##      12: 92.10% (90.25, 93.70) - 3600 rows
-##      14: 96.00% (94.59, 97.13) - 4200 rows
-##      16: 97.90% (96.81, 98.70) - 4800 rows
-##      18: 99.10% (98.30, 99.59) - 5400 rows
-##      20: 99.70% (99.13, 99.94) - 6000 rows
+##       3: 54.50% (51.35, 57.62) - 1512 rows
+##       4: 67.80% (64.80, 70.69) - 2016 rows
+##       5: 78.00% (75.30, 80.53) - 2520 rows
+##       6: 83.20% (80.74, 85.47) - 3024 rows
+##       7: 88.30% (86.14, 90.23) - 3528 rows
+##       8: 92.10% (90.25, 93.70) - 4032 rows
+##       9: 95.20% (93.69, 96.44) - 4536 rows
+##      10: 97.30% (96.10, 98.21) - 5040 rows
 ## 
-## Time elapsed: 0 h 56 m 5 s
+## Time elapsed: 0 h 24 m 24 s
 ```
 
 ```r
-# ok, we need ~9 observations within pid, instruction method, and index of difficulty; let's look specifically at this number of observations 
-model4 <- extend(model2, within = 'PID+ANGLE+ID', n=9)
+# ok, we need ~6 observations within pid, instruction method, and index of difficulty; let's look specifically at this number of observations 
+model4 <- extend(model2, within = 'PID+ANGLE+ID', n=6)
 
 # power for interaction term
 sim4 <- powerSim(model4, nsim=500, test = fcompare(y~ANGLE+ID))
@@ -319,15 +307,15 @@ sim4
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##       84.00% (80.49, 87.10)
+##       83.60% (80.06, 86.74)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ ANGLE + ID + [re]
 ## 
 ## Based on 500 simulations, (0 warnings, 0 errors)
-## alpha = 0.05, nrow = 2700
+## alpha = 0.05, nrow = 3024
 ## 
-## Time elapsed: 0 h 5 m 10 s
+## Time elapsed: 0 h 2 m 2 s
 ```
 
 ```r
@@ -343,10 +331,10 @@ sim5
 ## Test: Likelihood ratio
 ##       Comparison to y ~ ANGLE + [re]
 ## 
-## Based on 500 simulations, (1 warning, 0 errors)
-## alpha = 0.05, nrow = 2700
+## Based on 500 simulations, (0 warnings, 0 errors)
+## alpha = 0.05, nrow = 3024
 ## 
-## Time elapsed: 0 h 4 m 26 s
+## Time elapsed: 0 h 2 m 2 s
 ```
 
 ```r
@@ -363,7 +351,8 @@ sim6
 ##       Comparison to y ~ ID + [re]
 ## 
 ## Based on 500 simulations, (0 warnings, 0 errors)
-## alpha = 0.05, nrow = 2700
+## alpha = 0.05, nrow = 3024
 ## 
-## Time elapsed: 0 h 2 m 29 s
+## Time elapsed: 0 h 2 m 26 s
 ```
+
