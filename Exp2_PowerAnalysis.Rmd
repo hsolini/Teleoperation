@@ -113,7 +113,7 @@ sim
 
 ```{r extend baseline model}
 # First, let's extend the number of participants to 42 instead of 5
-model2 <- extend(model, along = 'PID', n=42)
+model2 <- extend(model, along = 'PID', n=42) 
 
 # run the simulation
 sim2 <- powerSim(model2, nsim=500, test = fcompare(y~ANGLE+ID))

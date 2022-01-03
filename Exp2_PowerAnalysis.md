@@ -81,19 +81,19 @@ head(df_sample, n = 12)
 ```
 
 ```
-##    PID ANGLE    ID         ct
-## 1    1    45 0.874 2.24967910
-## 2    1    45 0.700 2.10686662
-## 3    1    45 0.585 1.48603257
-## 4    1    45 0.503 1.28669829
-## 5    1    90 0.874 1.24721615
-## 6    1    90 0.700 2.47470157
-## 7    1    90 0.585 2.12831138
-## 8    1    90 0.503 0.07213496
-## 9    1   135 0.874 0.89148315
-## 10   1   135 0.700 1.31352141
-## 11   1   135 0.585 1.83804649
-## 12   1   135 0.503 1.78153004
+##    PID ANGLE    ID        ct
+## 1    1    45 0.874 0.8441816
+## 2    1    45 0.700 1.3902620
+## 3    1    45 0.585 1.5157194
+## 4    1    45 0.503 2.6947800
+## 5    1    90 0.874 2.7747998
+## 6    1    90 0.700 1.4496915
+## 7    1    90 0.585 1.4557608
+## 8    1    90 0.503 0.9537919
+## 9    1   135 0.874 2.1252432
+## 10   1   135 0.700 1.1442363
+## 11   1   135 0.585 0.4760554
+## 12   1   135 0.503 1.4098780
 ```
 
 
@@ -156,22 +156,22 @@ summary(fit)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -3.4812 -0.4578 -0.0010  0.4611  3.4328 
+## -3.4863 -0.4651 -0.0015  0.4651  3.3534 
 ## 
 ## Coefficients:
 ##                           Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)               1.173349   0.005981  196.18   <2e-16 ***
-## corner_angle90           -0.195558   0.008458  -23.12   <2e-16 ***
-## corner_angle135          -0.391116   0.008458  -46.24   <2e-16 ***
-## indx_dff                  0.944400   0.008797  107.36   <2e-16 ***
-## corner_angle90:indx_dff  -0.157400   0.012440  -12.65   <2e-16 ***
-## corner_angle135:indx_dff -0.314800   0.012440  -25.30   <2e-16 ***
+## (Intercept)               1.174132   0.006010  195.37   <2e-16 ***
+## corner_angle90           -0.195689   0.008499  -23.02   <2e-16 ***
+## corner_angle135          -0.391377   0.008499  -46.05   <2e-16 ***
+## indx_dff                  0.944400   0.008839  106.84   <2e-16 ***
+## corner_angle90:indx_dff  -0.157400   0.012500  -12.59   <2e-16 ***
+## corner_angle135:indx_dff -0.314800   0.012500  -25.18   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.7071 on 999990 degrees of freedom
-## Multiple R-squared:  0.1266,	Adjusted R-squared:  0.1265 
-## F-statistic: 2.898e+04 on 5 and 999990 DF,  p-value: < 2.2e-16
+## Residual standard error: 0.7106 on 999990 degrees of freedom
+## Multiple R-squared:  0.1256,	Adjusted R-squared:  0.1256 
+## F-statistic: 2.872e+04 on 5 and 999990 DF,  p-value: < 2.2e-16
 ```
 
 ```r
@@ -197,6 +197,9 @@ sim <- powerSim(model, nsim=500, test = fcompare(y~ANGLE+ID))
 ## boundary (singular) fit: see ?isSingular
 ## boundary (singular) fit: see ?isSingular
 ## boundary (singular) fit: see ?isSingular
+## boundary (singular) fit: see ?isSingular
+## boundary (singular) fit: see ?isSingular
+## boundary (singular) fit: see ?isSingular
 ```
 
 ```r
@@ -206,21 +209,21 @@ sim
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##        7.80% ( 5.61, 10.51)
+##       10.60% ( 8.04, 13.64)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ ANGLE + ID + [re]
 ## 
-## Based on 500 simulations, (0 warnings, 0 errors)
+## Based on 500 simulations, (1 warning, 0 errors)
 ## alpha = 0.05, nrow = 60
 ## 
-## Time elapsed: 0 h 1 m 7 s
+## Time elapsed: 0 h 1 m 9 s
 ```
 
 
 ```r
 # First, let's extend the number of participants to 42 instead of 5
-model2 <- extend(model, along = 'PID', n=42)
+model2 <- extend(model, along = 'PID', n=42) 
 
 # run the simulation
 sim2 <- powerSim(model2, nsim=500, test = fcompare(y~ANGLE+ID))
@@ -231,7 +234,7 @@ sim2
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##       24.00% (20.32, 27.99)
+##       20.60% (17.14, 24.41)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ ANGLE + ID + [re]
@@ -239,7 +242,7 @@ sim2
 ## Based on 500 simulations, (0 warnings, 0 errors)
 ## alpha = 0.05, nrow = 504
 ## 
-## Time elapsed: 0 h 1 m 18 s
+## Time elapsed: 0 h 1 m 13 s
 ```
 
 ```r
@@ -255,7 +258,7 @@ sim3
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##       97.60% (95.85, 98.75)
+##       98.20% (96.61, 99.17)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ ANGLE + ID + [re]
@@ -263,7 +266,7 @@ sim3
 ## Based on 500 simulations, (0 warnings, 0 errors)
 ## alpha = 0.05, nrow = 5040
 ## 
-## Time elapsed: 0 h 2 m 20 s
+## Time elapsed: 0 h 2 m 18 s
 ```
 
 ```r
@@ -284,16 +287,16 @@ print(pc)
 ```
 ## Power for model comparison, (95% confidence interval),
 ## by number of observations within PID+ANGLE+ID:
-##       3: 54.50% (51.35, 57.62) - 1512 rows
-##       4: 67.80% (64.80, 70.69) - 2016 rows
-##       5: 78.00% (75.30, 80.53) - 2520 rows
-##       6: 83.20% (80.74, 85.47) - 3024 rows
-##       7: 88.30% (86.14, 90.23) - 3528 rows
-##       8: 92.10% (90.25, 93.70) - 4032 rows
-##       9: 95.20% (93.69, 96.44) - 4536 rows
-##      10: 97.30% (96.10, 98.21) - 5040 rows
+##       3: 51.20% (48.05, 54.34) - 1512 rows
+##       4: 63.30% (60.23, 66.29) - 2016 rows
+##       5: 74.50% (71.68, 77.18) - 2520 rows
+##       6: 83.00% (80.53, 85.28) - 3024 rows
+##       7: 88.60% (86.47, 90.50) - 3528 rows
+##       8: 92.30% (90.47, 93.88) - 4032 rows
+##       9: 95.30% (93.80, 96.53) - 4536 rows
+##      10: 96.70% (95.40, 97.72) - 5040 rows
 ## 
-## Time elapsed: 0 h 24 m 24 s
+## Time elapsed: 0 h 23 m 27 s
 ```
 
 ```r
@@ -307,7 +310,7 @@ sim4
 
 ```
 ## Power for model comparison, (95% confidence interval):
-##       83.60% (80.06, 86.74)
+##       82.20% (78.56, 85.45)
 ## 
 ## Test: Likelihood ratio
 ##       Comparison to y ~ ANGLE + ID + [re]
@@ -315,7 +318,7 @@ sim4
 ## Based on 500 simulations, (0 warnings, 0 errors)
 ## alpha = 0.05, nrow = 3024
 ## 
-## Time elapsed: 0 h 2 m 2 s
+## Time elapsed: 0 h 1 m 47 s
 ```
 
 ```r
@@ -334,7 +337,7 @@ sim5
 ## Based on 500 simulations, (0 warnings, 0 errors)
 ## alpha = 0.05, nrow = 3024
 ## 
-## Time elapsed: 0 h 2 m 2 s
+## Time elapsed: 0 h 2 m 1 s
 ```
 
 ```r
@@ -353,6 +356,6 @@ sim6
 ## Based on 500 simulations, (0 warnings, 0 errors)
 ## alpha = 0.05, nrow = 3024
 ## 
-## Time elapsed: 0 h 2 m 26 s
+## Time elapsed: 0 h 2 m 0 s
 ```
 
